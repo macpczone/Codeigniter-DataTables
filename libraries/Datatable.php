@@ -400,7 +400,7 @@ class Datatable
 
         // put together a global search if specified
         $globSearch = $f->post_get('search');
-        if ($globSearch['value'] !== '') {
+        if ($globSearch['value'] != '') {
             $gSearchVal = $globSearch['value'];
             $sqlOr = '';
             $op = '';
