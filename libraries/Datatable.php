@@ -67,6 +67,7 @@ class Datatable
 
         $CI->load->model($model);
 
+		$CI->config->load('datatables');
         if (($CI->$model instanceof DatatableModel) === false) {
             throw new Exception('Model must implement the DatatableModel Interface');
         }
@@ -310,6 +311,7 @@ class Datatable
             return $value;
         }
 
+        $CI = $this->CI;
         switch ($formats[$column]) {
             case 'date' :
                 $dtFormats = array('Y-m-d H:i:s', 'Y-m-d');
@@ -325,22 +327,42 @@ class Datatable
                     //neither pattern could parse the date
                     throw new Exception('Could Not Parse To Date For Formatting [' . $value . ']');
                 }
-                return $dt->format('m/d/Y');
+                return $dt->format($CI->config->item('datatables.date_format'));
             case 'percent' :
                 ///$formatter = new \NumberFormatter('en_US', \NumberFormatter::PERCENT);
                 //return $formatter -> format(floatval($value) * .01);
                 return $value . '%';
             case 'currency' :
-                return '$' . number_format(floatval($value), 2);
+                return $CI->config->item('datatables.currency') . number_format(floatval($value), 2);
             case 'boolean' :
                 $b = filter_var($value, FILTER_VALIDATE_BOOLEAN);
                 return $b ? 'Yes' : 'No';
+            case 'action1' :
+				$string = $CI->config->item('datatables.action1');
+                return $this->action_replace($string, $value);
+            case 'action2' :
+				$string = $CI->config->item('datatables.action2');
+//					$output .= $parts[0] . site_url($parts[1]) . $parts[2];
+                return $this->action_replace($string, $value);
         }
 
         return $value;
     }
 
-
+    private function action_replace($string, $value)
+    {
+		$output = '';
+		$string = str_replace("@@", $value, $string);
+		$parts = preg_split( '/(\{\{|\}\})/', $string);
+		foreach ($parts as $key => $part) {
+			if($key %2 == TRUE) {
+				$output .= site_url($part);
+			} else {
+				$output .= $part;
+			}
+		}
+		return $output;
+	}
 
     //specify the joins and where clause for the Active Record. This code is common to
     //fetch the data and get a total record count
