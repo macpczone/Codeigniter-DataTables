@@ -338,11 +338,12 @@ class Datatable
                 $b = filter_var($value, FILTER_VALIDATE_BOOLEAN);
                 return $b ? 'Yes' : 'No';
             case 'action1' :
-				$string = $CI->config->item('datatables.action1');
+		//If you add another action in the config file,then you
+		//also have to add another case for it here.
+		$string = $CI->config->item('datatables.action1');
                 return $this->action_replace($string, $value);
             case 'action2' :
-				$string = $CI->config->item('datatables.action2');
-//					$output .= $parts[0] . site_url($parts[1]) . $parts[2];
+		$string = $CI->config->item('datatables.action2');
                 return $this->action_replace($string, $value);
         }
 

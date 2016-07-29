@@ -19,6 +19,8 @@ This library requires **DataTables 1.10 >**
 
 * Drastically Reduces PHP Code Necessary To Generate a Server Side Table
 
+* Code added to allow custom HTML to be added in each row
+
 Change Log
 -----
 * **v1.3**
@@ -240,6 +242,10 @@ Resources
 * <a href="http://datatables.net/">DataTables</a>
 
 * <a href="https://datatables.net/reference/api/column%28%29.search%28%29">DataTable Column Search Documentation</a>
+
+Example application
+-------------------
+* <a href="https://github.com/macpczone/codeigniter-datatables-example">Datatables Example Application</a>
 
 License Information
 -------------------
