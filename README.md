@@ -237,6 +237,29 @@ $('#myDataTable').dataTable( {
     });
 ```
 
+Adding actions to each row controller example
+-----
+The name given to the action in the config file is added as a column format for the library to output
+
+```php
+class DataTableExample extends CI_Controller {
+
+	public function dataTable() {
+		$this -> load -> library('Datatable', array('model' => 'example_dt', 'rowIdCol' => 'id'));
+		
+		$jsonArray = $this -> datatable -> datatableJson(array(
+                'datetaken' => 'date',
+                'id' => 'action1',
+            ));
+		$this -> output -> set_header("Pragma: no-cache");
+    $this -> output -> set_header("Cache-Control: no-store, no-cache");
+    $this -> output -> set_content_type('application/json') -> set_output(json_encode($jsonArray));
+		
+	}
+
+}
+```
+
 Resources
 -----
 * <a href="http://datatables.net/">DataTables</a>
